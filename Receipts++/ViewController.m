@@ -76,7 +76,10 @@ NSString * const headerReuseIdentifier = @"headerReuseIdentifier";
         tagName = tag.tagName;
     }
     
-    [self.dataSource setObject:tempArray forKey:tagName];
+    if (tagName != nil)
+    {
+        [self.dataSource setObject:tempArray forKey:tagName];
+    }
     
     //each category you need an array of receipts
     
@@ -171,17 +174,20 @@ NSString * const headerReuseIdentifier = @"headerReuseIdentifier";
         
     }
 }
-- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
-{
-    //UITableViewHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:headerReuseIdentifier];
-    //header.textLabel.text = self.fetchedResultsController.sections[section].name;
-    
-    //UITableViewHeaderFooterView *header = [tableView dequeueReusableHeaderFooterViewWithIdentifier:headerReuseIdentifier];
-    //header.textLabel.text = [self.categoryResults objectAtIndex:section];
-    
-    return nil;
-}
 
+-(NSString *)tableView:(UITableView *)tableView titleForHeaderInSection:(NSInteger)section
+{
+    NSString *tagName = [self.dataSource.allKeys objectAtIndex:section];
+
+    if ([tagName isEqualToString:@"Personal"]) {
+        return @"Personal";
+    } else if ([tagName isEqualToString:@"Family"]) {
+        return @"Family";
+    } else {
+        return @"Business";
+    }
+
+}
 #pragma mark - Core Data
 
 - (void)saveContext {
